@@ -7,52 +7,114 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+
     def add_vertex(self, vertex):
-        """
-        Add a vertex to the graph.
-        """
-        pass  # TODO
+        self.vertices[vertex] = set()
+        
     def add_edge(self, v1, v2):
-        """
-        Add a directed edge to the graph.
-        """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("Vertex does not exist.")
+
     def bft(self, starting_vertex):
-        """
-        Print each vertex in breadth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        queue = Queue()
+        queue.enqueue(starting_vertex)
+
+        visited = set()
+
+        while queue.size() > 0:
+            vertex = queue.dequeue()
+            if vertex not in visited:
+                print(vertex)
+                visited.add(vertex)
+
+                for neighbor in self.vertices[vertex]:
+                    queue.enqueue(neighbor)
+
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        This should be done using recursion.
-        """
-        pass  # TODO
+        stack = Stack()
+        stack.push(starting_vertex)
+
+        visited = set()
+
+        while stack.size() > 0:
+            vertex = stack.pop()
+
+            if vertex not in visited:
+                print(vertex)
+                visited.add(vertex)
+
+                for neighbor in self.vertices[vertex]:
+                    stack.push(neighbor)
+
+    def dft_recursive(self, starting_vertex, visited=None):
+        if visited is None:
+            visited = set()
+
+        visited.add(starting_vertex)
+        print(starting_vertex)
+
+        for neighbor in self.vertices[starting_vertex]:
+            if neighbor not in visited:
+                self.dft_recursive(neighbor, visited)
+
+
     def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-        pass  # TODO
+        if starting_vertex is destination_vertex:
+            return starting_vertex
+
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        visited = set()
+        print(visited)
+        while queue.size() > 0:
+            # dequeue the first path
+            path = queue.dequeue()
+            print(path)
+            # we need to grab the last vertex of the path (hint, path is an array)
+            vertex = path[-1]
+            if vertex == destination_vertex:
+                return path
+            if vertex not in visited:
+                visited.add(vertex)
+            for neighbor in self.vertices[vertex]:
+                # create a copy path for each of those neighbors, and then append neighbor to that copy
+                path_copy = path.copy()
+                path_copy.append(neighbor)
+                if neighbor == destination_vertex:
+
+                    return path_copy
+                queue.enqueue(path_copy)
+
     def dfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        """
-        pass  # TODO
+         # create an empty queue, add the starting vertex
+        if starting_vertex is destination_vertex:
+            return starting_vertex
 
+        stack = Stack()
+        stack.push([starting_vertex])
+        visited = set()
+        print(visited)
+        while stack.size() > 0:
+            # dequeue the first path
+            path = stack.pop()
+            print(path)
+            # we need to grab the last vertex of the path (hint, path is an array)
+            vertex = path[-1]
+            if vertex == destination_vertex:
+                return path
+            if vertex not in visited:
+                visited.add(vertex)
+            for neighbor in self.vertices[vertex]:
 
+                # create a copy path for each of those neighbors, and then append neighbor to that copy
+                path_copy = path.copy()
+                path_copy.append(neighbor)
+                if neighbor == destination_vertex:
 
+                    return path_copy
+                stack.push(path_copy)
 
 
 if __name__ == '__main__':
