@@ -16,7 +16,7 @@ def earliest_ancestor(ancestors, starting_node):
 
 	stack = Stack()
 	stack.push([starting_node])
-	visited = set()
+	# visited = set()
 
 	longest_path = [starting_node]
 	e_ancestor = starting_node
