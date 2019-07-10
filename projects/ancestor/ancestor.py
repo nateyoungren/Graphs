@@ -13,11 +13,6 @@ class Stack:
 
 def earliest_ancestor(ancestors, starting_node):
 	# Depth first search (stack)
-	values = set()
-	# Transform tuple values into set
-	for i in range(len(ancestors) - 1):
-		if ancestors[i]:
-			values.add(ancestors[i])
 
 	stack = Stack()
 	stack.push([starting_node])
